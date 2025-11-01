@@ -8,10 +8,7 @@ import {
 import { UUIDType } from './uuid.js';
 import { ProfileType } from './profile.js';
 import { PostType } from './post.js';
-import {
-  resolveUserSubscribedTo,
-  resolveSubscribedToUser,
-} from '../resolvers/user_subscription.js';
+import { Context } from '../resolvers/_interfaces.js';
 
 export const UserType = new GraphQLObjectType({
   name: 'User',
@@ -33,3 +30,51 @@ export const UserType = new GraphQLObjectType({
     },
   }),
 });
+
+async function resolveUserSubscribedTo(
+  parent: { id: string },
+  _: unknown,
+  { prisma }: Context,
+) {
+  const subscriptions = await prisma.subscribersOnAuthors.findMany({
+    where: { subscriberId: parent.id },
+    include: {
+      author: {
+        include: {
+          profile: {
+            include: {
+              memberType: true,
+            },
+          },
+          posts: true,
+        },
+      },
+    },
+  });
+
+  return subscriptions.map((sub) => sub.author);
+}
+
+async function resolveSubscribedToUser(
+  parent: { id: string },
+  _: unknown,
+  { prisma }: Context,
+) {
+  const subscriptions = await prisma.subscribersOnAuthors.findMany({
+    where: { authorId: parent.id },
+    include: {
+      subscriber: {
+        include: {
+          profile: {
+            include: {
+              memberType: true,
+            },
+          },
+          posts: true,
+        },
+      },
+    },
+  });
+
+  return subscriptions.map((sub) => sub.subscriber);
+}

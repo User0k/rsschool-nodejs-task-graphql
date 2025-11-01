@@ -3,7 +3,7 @@ import { ProfileType } from '../types/profile.js';
 import { UUIDType } from '../types/uuid.js';
 import { Args, Context } from './_interfaces.js';
 
-export const profileListResolver = {
+export const profileListResolverQuery = {
   type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(ProfileType))),
   async resolve(_, __, { prisma }: Context) {
     return await prisma.profile.findMany({
@@ -14,7 +14,7 @@ export const profileListResolver = {
   },
 };
 
-export const profileResolver = {
+export const profileResolverQuery = {
   type: ProfileType,
   args: {
     id: { type: new GraphQLNonNull(UUIDType) },

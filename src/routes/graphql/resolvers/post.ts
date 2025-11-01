@@ -3,14 +3,14 @@ import { PostType } from '../types/post.js';
 import { UUIDType } from '../types/uuid.js';
 import { Args, Context } from './_interfaces.js';
 
-export const postListResolver = {
+export const postListResolverQuery = {
   type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(PostType))),
   async resolve(_, __, { prisma }: Context) {
     return await prisma.post.findMany();
   },
 };
 
-export const postResolver = {
+export const postResolverQuery = {
   type: PostType,
   args: {
     id: { type: new GraphQLNonNull(UUIDType) },

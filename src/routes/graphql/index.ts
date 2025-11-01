@@ -1,10 +1,10 @@
 import { FastifyPluginAsyncTypebox } from '@fastify/type-provider-typebox';
 import { createGqlResponseSchema, gqlResponseSchema } from './schemas.js';
 import { graphql, GraphQLObjectType, GraphQLSchema } from 'graphql';
-import { memberListResolver, memberResolver } from './resolvers/member.js';
-import { postListResolver, postResolver } from './resolvers/post.js';
-import { profileListResolver, profileResolver } from './resolvers/profile.js';
-import { userListResolver, userResolver } from './resolvers/user.js';
+import { memberListResolverQuery, memberResolverQuery } from './resolvers/member.js';
+import { postListResolverQuery, postResolverQuery } from './resolvers/post.js';
+import { profileListResolverQuery, profileResolverQuery } from './resolvers/profile.js';
+import { userListResolverQuery, userResolverQuery } from './resolvers/user.js';
 
 const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
   const { prisma } = fastify;
@@ -12,14 +12,14 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
   const QueryType = new GraphQLObjectType({
     name: 'Query',
     fields: {
-      memberTypes: memberListResolver,
-      memberType: memberResolver,
-      posts: postListResolver,
-      post: postResolver,
-      profiles: profileListResolver,
-      profile: profileResolver,
-      users: userListResolver,
-      user: userResolver,
+      memberTypes: memberListResolverQuery,
+      memberType: memberResolverQuery,
+      posts: postListResolverQuery,
+      post: postResolverQuery,
+      profiles: profileListResolverQuery,
+      profile: profileResolverQuery,
+      users: userListResolverQuery,
+      user: userResolverQuery,
     },
   });
 

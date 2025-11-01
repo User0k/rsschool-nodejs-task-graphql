@@ -3,7 +3,7 @@ import { UserType } from '../types/user.js';
 import { UUIDType } from '../types/uuid.js';
 import { Args, Context } from './_interfaces.js';
 
-export const userListResolver = {
+export const userListResolverQuery = {
   type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(UserType))),
   async resolve(_, __, { prisma }: Context) {
     return prisma.user.findMany({
@@ -19,7 +19,7 @@ export const userListResolver = {
   },
 };
 
-export const userResolver = {
+export const userResolverQuery = {
   type: UserType,
   args: {
     id: { type: new GraphQLNonNull(UUIDType) },
